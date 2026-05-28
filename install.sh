@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 # =============================================================
 # ZapTec — Instalacao completa com migracao automatica do Ticketz
-# Uso: curl -fsSL https://raw.githubusercontent.com/morrice22/zaptec-deploy/main/install.sh | bash -s -- "TOKEN"
+# Uso: curl -fsSL https://raw.githubusercontent.com/morrice22/zaptec-deploy/main/install.sh | bash
 # =============================================================
 set -euo pipefail
 
-GHCR_TOKEN="${1:-}"
 GHCR_IMAGE="ghcr.io/morrice22/whatsapp-saas:latest"
 GHCR_USER="morrice22"
 INSTALL_DIR="/opt/zaptec"
@@ -18,14 +17,18 @@ warn() { echo -e "${Y}[!]${NC} $*"; }
 err()  { echo -e "${R}[ERRO]${NC} $*"; exit 1; }
 step() { echo -e "\n${W}==== $* ====${NC}"; }
 
-[ -z "$GHCR_TOKEN" ] && err "Token nao fornecido. Contate o suporte."
-
 clear
 echo ""
 echo -e "${W}╔══════════════════════════════════════════╗${NC}"
 echo -e "${W}║         ZapTec — Instalacao              ║${NC}"
 echo -e "${W}╚══════════════════════════════════════════╝${NC}"
 echo ""
+echo -e "  Voce precisara do token de acesso fornecido pelo suporte."
+echo ""
+read -rsp "  Cole o token aqui e pressione ENTER: " GHCR_TOKEN
+echo ""
+[ -z "$GHCR_TOKEN" ] && err "Token nao informado."
+ok "Token recebido."
 
 # ─────────────────────────────────────────────────────────────
 # 1. DOCKER
